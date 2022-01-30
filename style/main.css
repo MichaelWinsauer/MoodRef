@@ -93,6 +93,13 @@ html {
 .media-wrapper {
     position: absolute;
     overflow: visible;
+    animation-name: media-spawn;
+    animation-duration: .15s;
+}
+
+@keyframes media-spawn {
+    from {transform: scale(0, 0);}
+    to {transform: scale(1, 1);}
 }
 
 .media-wrapper:hover > .resize {
