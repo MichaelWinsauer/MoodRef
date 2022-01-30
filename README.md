@@ -1,12 +1,11 @@
 Planned:
+
     - Images/Videos/GIF/WEBP
         = Drag
         = Resize
         = Rotate
         = Mirror
         = Set precise position / Rotation / Size
-        = 
-        = 
 
     - Board
         = Zoom Factor
