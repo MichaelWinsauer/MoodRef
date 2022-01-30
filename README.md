@@ -1,2 +1,16 @@
-# MoodRef
-MoodRef is a web-based Image/Video/GIFs Reference Board manager to keep keep yourself inspired, getting in the mood or simply needing references.
+Planned:
+    - Images/Videos/GIF/WEBP
+        = Drag
+        = Resize
+        = Rotate
+        = Mirror
+        = Set precise position / Rotation / Size
+        = 
+        = 
+
+    - Board
+        = Zoom Factor
+        = Open multiple (Tabs)
+        = Save/Load Board (JSON)
+        = Control Panel @ Hover
+        = Changeable Background? (Color?/Image?)

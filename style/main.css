@@ -1,0 +1,166 @@
+* {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+    /* overflow: hidden; */
+    outline: none;
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+html {
+    width: 100%;
+    height: 100%;
+    overflow-x: scroll;
+    overflow-y: scroll;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+#Board {
+    background-color: #202020;
+    width: 100000px;
+    height: 100000px;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    overflow-x: scroll;
+    overflow-y: scroll;
+}
+
+#ControlPanel {
+    width: 300px;
+    height: 50px;
+    background-color: #252525;
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    opacity: 1;
+    z-index: 100;
+    display: flex;
+    justify-content: flex-start;
+    text-align: center;
+    color: white;
+}
+
+#ControlPanel:hover {
+    opacity: 1;
+}
+
+#ControlPanel input {
+    height: 100%;
+    font-size: 20px;
+    background-color: green;
+    text-align: center;
+    vertical-align: middle;
+}
+
+#BtnAddMedia {
+    width: 50px;
+    height: 50px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 35pt;
+    color: white;
+    transition: .15s ease-in-out;
+}
+
+#BtnAddMedia:hover {
+    background: #303030;
+}
+
+.media-empty {
+    background-color: transparent;
+    border: 2px solid white;
+}
+
+.media-active {
+    box-shadow: inset 0 0 20px #000000;
+}
+
+.media {
+    pointer-events: none;
+    object-fit: contain;
+}
+
+.media-wrapper {
+    position: absolute;
+    overflow: visible;
+}
+
+.media-wrapper:hover > .resize {
+    opacity: 1;
+}
+
+.media-wrapper:hover > .media-delete {
+    opacity: 0.8;
+    top: 10px;
+}
+
+.media-delete {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    background-color: black;
+    color: white;
+    opacity: 0;
+    top: -10px;
+    left: calc(50% - 25px);
+    transition: .3s ease-in-out;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    cursor: pointer;
+    font-size: 30px;
+}
+
+.media-delete:hover {
+    opacity: 1 !important;
+}
+
+.resize {
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    border-radius: 7.5px;
+    background-color: black;
+    cursor: col-resize;
+    opacity: 0;
+}
+
+.resize-top-right {
+    top: 0;
+    right: 0;
+    margin-top: -7.5px;
+    margin-right: -7.5px;
+}
+
+.resize-top-left {
+    top: 0;
+    left: 0;
+    margin-top: -7.5px;
+    margin-left: -7.5px;
+}
+
+.resize-bottom-right {
+    bottom: 0;
+    right: 0;
+    margin-bottom: -7.5px;
+    margin-right: -7.5px;
+}
+
+.resize-bottom-left {
+    bottom: 0;
+    left: 0;
+    margin-bottom: -7.5px;
+    margin-left: -7.5px;
+}
