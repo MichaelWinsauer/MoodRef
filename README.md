@@ -1,6 +1,8 @@
 ## Images/Videos/GIF/WEBP
 - [x] Drag
 - [x] Resize
+- [x] Drag & Drop File
+- [x] Add via Filechooser
 - [ ] Rotate
 - [ ] Mirror
 - [ ] Set precise position / Rotation / Size
@@ -8,7 +10,7 @@
 
 ## Board
 - [x] Zoom Factor
-- [ ] Open multiple (Tabs)
+- [ ] Open multiple Boards
 - [ ] Save/Load Board (JSON)
-- [ ] Control Panel @ Hover
+- [ ] Control Panel
 - [ ] Changeable Background? (Color?/Image?)
