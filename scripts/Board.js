@@ -190,6 +190,7 @@ export function addMediaToBoard(media, board) {
             }
         }
     }
+}
 
 export function boardRightClickControl(board) {
     window.addEventListener("mousedown", function(e) {
