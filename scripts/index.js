@@ -1,8 +1,19 @@
+//==========================================================//
+// Initializing
 import Media from "./Media.js"
-import Board, { addMediaToBoard } from "./Board.js"
+import Board, { addMediaToBoard, boardRightClickControl } from "./Board.js"
 
 var btnAddMedia = document.getElementById("BtnAddMedia");
 var board = new Board(document.getElementById("Board"));
+
+//==========================================================//
+//Board Control
+
+$('body').mousedown(function(e) {
+    if(e.button==1) {
+        return false;
+    }
+});
 
 window.addEventListener("mousewheel", function(e) {
     e.preventDefault();
@@ -24,7 +35,10 @@ board.element.addEventListener("wheel", function(e) {
     document.getElementById("ControlPanelZoomAmount").value = board.element.style.zoom.split("%")[0];
 }, { passive:false });
 
+boardRightClickControl(board);
+
 //==========================================================//
+//Adding Media
 
 board.element.addEventListener("drop", function(e) {
     e.preventDefault();
@@ -34,8 +48,6 @@ board.element.addEventListener("drop", function(e) {
 
     addMediaToBoard(media, board);
 });
-
-//==========================================================//
 
 btnAddMedia.addEventListener("click", function(e) {
     var file;
@@ -53,3 +65,5 @@ btnAddMedia.addEventListener("click", function(e) {
     
     return false;
 });
+
+//==========================================================//

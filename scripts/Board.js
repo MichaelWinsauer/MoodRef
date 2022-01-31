@@ -81,8 +81,8 @@ export function addMediaToBoard(media, board) {
         board.isMouseDown = true;
         board.activeMedia = mediaElement;
 
-        window.x = (e.x - mediaElement.getBoundingClientRect().left);
-        window.y = (e.y - mediaElement.getBoundingClientRect().top);
+        window.x = (e.x - mediaElement.getBoundingClientRect().left) - window.scrollX;
+        window.y = (e.y - mediaElement.getBoundingClientRect().top) - window.scrollY;
 
         window.addEventListener("mousemove", moveElement);
 
@@ -190,4 +190,41 @@ export function addMediaToBoard(media, board) {
             }
         }
     }
+
+export function boardRightClickControl(board) {
+    window.addEventListener("mousedown", function(e) {
+
+        if(e.target.id !== "Board") {
+            return;
+        }
+
+        if (e && (e.button == 2)) {
+            var position = {
+                x: e.pageX,
+                y: e.pageY,
+            };
+
+            board.element.style.cursor = "grabbing";
+            board.element.style.userSelect = "none";
+
+            window.addEventListener("mousemove", rightClickMove);
+
+            window.addEventListener("mouseup", rightClickUp);
+
+            function rightClickMove(e) {
+                $(window).scrollLeft($(window).scrollLeft() + (position.x - e.pageX));
+                $(window).scrollTop($(window).scrollTop() + (position.y - e.pageY));
+            }
+
+            function rightClickUp(e) {
+                if (e && (e.button == 2)) {
+                    window.removeEventListener("mousemove", rightClickMove);
+                    window.removeEventListener("mouseup", rightClickUp);
+
+                    board.element.style.removeProperty('cursor');
+                    board.element.style.removeProperty('user-select');
+                }
+            }
+        }
+    });
 }
