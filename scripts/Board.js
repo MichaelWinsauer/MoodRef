@@ -1,4 +1,5 @@
 export default class Board {
+    static ID_PREFIX = "MediaID_";
     
     constructor(element) {
         this.element = element;
@@ -6,6 +7,7 @@ export default class Board {
         this.activeMedia = null;
         this.isMediaResizing = false;
         this.scaleAmount = 1;
+        this.mediaItems = [];
 
         this.element.addEventListener("dragover", (e) => {
             e.preventDefault();
@@ -15,7 +17,21 @@ export default class Board {
         this.element.addEventListener("dragleave", () => {
             element.classList.remove("drag-hover");
         });
+    }
 
+    static init() {
+        var boardElement = document.createElement("div");
+        
+        boardElement.id = "Board";
+        boardElement.style.zoom = "100%";
+
+        if(document.getElementById("Board")) {
+            document.getElementById("Board").remove();
+        }
+        // document.insertBefore(boardElement, document.body.firstChild);
+        document.body.appendChild(boardElement);
+        
+        return new Board(boardElement);
     }
 }
 
@@ -37,6 +53,7 @@ export function addMediaToBoard(media, board) {
     deleteElement.innerHTML = "X";
 
     deleteElement.addEventListener("click", function(e) {
+        board.mediaItems.splice(board.mediaItems.indexOf(getMediaByDomID(board, wrapperElement.id)), 1);
         wrapperElement.remove();
     });
 
@@ -72,10 +89,11 @@ export function addMediaToBoard(media, board) {
 
     mediaElement.file = media.file;
     mediaElement.classList.add("media");
-    wrapperElement.id = "MediaID_" + media.id;
+    wrapperElement.id = Board.ID_PREFIX + media.id;
     wrapperElement.style.left = 50 + "px";
     wrapperElement.style.top = 50 + "px";
-
+    media.positionX = wrapperElement.style.left;
+    media.positionY = wrapperElement.style.top;
 
     wrapperElement.addEventListener("mousedown", function(e) {
         board.isMouseDown = true;
@@ -103,32 +121,61 @@ export function addMediaToBoard(media, board) {
        
         wrapperElement.style.left = x + "px";
         wrapperElement.style.top = y + "px";
+
+        getMediaByDomID(board, wrapperElement.id).positionX = wrapperElement.style.left;
+        getMediaByDomID(board, wrapperElement.id).positionY = wrapperElement.style.top;
+        getMediaByDomID(board, wrapperElement.id).width = wrapperElement.getBoundingClientRect().width + "px";
+        getMediaByDomID(board, wrapperElement.id).height = wrapperElement.getBoundingClientRect().height  + "px";
     }
 
     var reader = new FileReader();
-    reader.onload = (function(mediaElement) { 
-        return function(e) {
+    reader.onload = function(e) { 
+        // return function(e) {
+            mediaElement.onload = (function() {
+                
+                function calculateAspectRatioFit(srcWidth, srcHeight, maxWidth, maxHeight) {
+
+                    var ratio = Math.min(maxWidth / srcWidth, maxHeight / srcHeight);
+                
+                    return { width: srcWidth*ratio, height: srcHeight*ratio };
+                }
+
+                var maxWidth = 700;
+                var maxHeight = maxWidth;
+
+                var imageSize = calculateAspectRatioFit(e.target.width, e.target.height, maxWidth, maxHeight);
+
+                // mediaElement.style.width = e.target.width + "px";
+                // mediaElement.style.height = e.target.height + "px";
+
+                mediaElement.style.maxWidth = "700px";
+                mediaElement.style.maxHeight = "700px";
+
+                wrapperElement.style.width = mediaElement.style.width;
+                wrapperElement.style.height = mediaElement.style.height;
+                
+                media.width = wrapperElement.style.width;
+                media.height = wrapperElement.style.height;
+            
+                wrapperElement.appendChild(mediaElement);
+                wrapperElement.appendChild(deleteElement);
+                wrapperElement.appendChild(resizeTopRightElement);
+                wrapperElement.appendChild(resizeTopLeftElement);
+                wrapperElement.appendChild(resizeBottomRightElement);
+                wrapperElement.appendChild(resizeBottomLeftElement);
+                board.element.appendChild(wrapperElement);
+                board.mediaItems.push(media);
+
+            })(e);
+        
             mediaElement.src = e.target.result;
-        }; 
-    })(mediaElement);
+            media.data = e.target.result;
+
+        // }; 
+    }
     reader.readAsDataURL(media.file);
     
-    mediaElement.onload = (function() {
-        
-        mediaElement.style.maxWidth = "700px";
-        mediaElement.style.maxHeight = "700px";
-
-        wrapperElement.style.width = mediaElement.style.width;
-        wrapperElement.style.height = mediaElement.style.height;
     
-        wrapperElement.appendChild(mediaElement);
-        wrapperElement.appendChild(deleteElement);
-        wrapperElement.appendChild(resizeTopRightElement);
-        wrapperElement.appendChild(resizeTopLeftElement);
-        wrapperElement.appendChild(resizeBottomRightElement);
-        wrapperElement.appendChild(resizeBottomLeftElement);
-        board.element.appendChild(wrapperElement);
-    })();
 
     for(var resizer of resizeElementArray) {
         resizer.addEventListener("mousedown", mousedown); 
@@ -173,6 +220,11 @@ export function addMediaToBoard(media, board) {
                 mediaElement.style.height = element.style.height;
                 mediaElement.style.top = element.style.top;
                 mediaElement.style.left = element.style.left;
+
+                getMediaByDomID(board, wrapperElement.id).width = wrapperElement.style.width;
+                getMediaByDomID(board, wrapperElement.id).height = wrapperElement.style.height;
+                getMediaByDomID(board, wrapperElement.id).positionX = wrapperElement.style.left;
+                getMediaByDomID(board, wrapperElement.id).positionY = wrapperElement.style.top;
                 
                 mediaElement.style.maxWidth = "";
                 mediaElement.style.maxHeight = "";
@@ -228,4 +280,15 @@ export function boardRightClickControl(board) {
             }
         }
     });
+}
+
+window.getMediaByDomID = function(board, domID) {
+    
+    var id = domID.substr(Board.ID_PREFIX.length);
+   
+    for(var item of board.mediaItems) {
+        if(parseInt(id) === item.id) {
+            return item;
+        }
+    }
 }

@@ -4,7 +4,7 @@ import Media from "./Media.js"
 import Board, { addMediaToBoard, boardRightClickControl } from "./Board.js"
 
 var btnAddMedia = document.getElementById("BtnAddMedia");
-var board = new Board(document.getElementById("Board"));
+window.board = Board.init();
 
 //==========================================================//
 //Board Control

@@ -4,12 +4,11 @@ export default class Media {
     constructor(file){
         this.file = file;
         
+        this.data = "";
         this.positionX = 0;
         this.positionY = 0;
         this.width = 0;
         this.height = 0;
-        this.scaleX = 1;
-        this.scaleY = 1;
         this.id = Media.count;
         Media.count++;
     }
