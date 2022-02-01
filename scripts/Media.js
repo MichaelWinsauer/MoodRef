@@ -3,6 +3,14 @@ export default class Media {
 
     constructor(file){
         this.file = file;
+
+        this.serializableFileObject  = {
+            "lastModified" : this.file.lastModified,
+            "lastModifiedDate" : this.file.lastModifiedDate,
+            "name" : this.file.name,
+            "size" : this.file.size,
+            "type" : this.file.type
+         };
         
         this.data = "";
         this.positionX = 0;

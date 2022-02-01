@@ -4,6 +4,8 @@ import Media from "./Media.js"
 import Board, { addMediaToBoard, boardRightClickControl } from "./Board.js"
 
 var btnAddMedia = document.getElementById("BtnAddMedia");
+var btnSave = document.getElementById("BtnSave");
+var btnLoad = document.getElementById("BtnLoad");
 window.board = Board.init();
 
 //==========================================================//
@@ -67,3 +69,16 @@ btnAddMedia.addEventListener("click", function(e) {
 });
 
 //==========================================================//
+
+btnSave.addEventListener("click", function() {
+    var arr = [];
+    for(var media of board.mediaItems) {
+        arr.push(media.serializableFileObject);
+    }
+
+    localStorage["data"] = JSON.stringify(arr);
+});
+
+btnLoad.addEventListener("click", function() {
+
+});

@@ -55,6 +55,7 @@ html {
 
 #ControlPanel input {
     height: 100%;
+    width: 100px;
     font-size: 20px;
     background-color: green;
     text-align: center;

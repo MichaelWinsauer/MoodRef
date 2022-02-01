@@ -170,6 +170,7 @@ export function addMediaToBoard(media, board) {
         
             mediaElement.src = e.target.result;
             media.data = e.target.result;
+            window.blob = e.target.result;
 
         // }; 
     }
